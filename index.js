@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
 const morgan = require('morgan');
 const cors = require('cors');
 const tree = require('./routes/tree');
+const path = require('path');
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -13,14 +15,41 @@ app.use('/trees', tree);
 
 app.set('view engine', 'ejs');
 
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.set('useUnifiedTopology', true);
+
+
+mongoose.connect('mongodb://localhost:27017/walkingTree')
+    .then(() => {
+        console.log('connected to MongoDB');
+    })
+    .catch((er) => {
+        console.log('error encounterd', err);
+
+    });
+
+process.on('uncaughtException', (e) => {
+    console.log("WE GOT AN UNCAUGHT EXCEPTION");
+    console.log(e);
+    process.exit(1);
+});
+process.on('unhandledRejection', (e) => {
+    console.log("WE GOT AN UNHANDLED PROMISE");
+    console.log(e);
+    process.exit(1);
+});
+
+
 app.get('/', (req, res) => {
-    res.send('fine');
+    res.sendFile(__dirname + '/public/home.html');
 });
 
 const port = process.env.PORT || 3000;
 
 app.listen(port, (error) => {
-    if (error) console.log(error);
+    if (error) console.log('error encounterd while running the server'.error);
 
     console.log(`listing on port ${port}`);
 });
