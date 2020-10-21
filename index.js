@@ -5,13 +5,18 @@ const morgan = require('morgan');
 const cors = require('cors');
 const tree = require('./routes/tree');
 const path = require('path');
+const signup = require('./routes/sign-up');
+const login = require('./routes/log-in');
 
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
+
 app.use('/trees', tree);
+app.use('/signup', signup);
+app.use('/login', login);
 
 app.set('view engine', 'ejs');
 
@@ -53,3 +58,7 @@ app.listen(port, (error) => {
 
     console.log(`listing on port ${port}`);
 });
+
+//TODO: JOI validation 
+//TODO: login and signup with Jwt and bycrypt
+//TODO : DELETE route for trees/list route with user authorisation middleware
