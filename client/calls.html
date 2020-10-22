@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.5.1.min.js"></script>
+    <title>Home</title>
+</head>
+
+<body>
+    <center>
+        <h1 style="color: black;">WALKING_TREE</h1>
+    </center>
+    <button id="login">Login</button>
+    <button id="testjwt">testJwt</button>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $('#login').on('click', function () {
+                let user_data = {
+                    "email": "gowthabhat793@gmail.com",
+                    "password": "9900789274g"
+                }
+                $.ajax({
+                    type: "POST",
+                    data: JSON.stringify(user_data),
+                    contentType: "application/json; charset=utf-8",
+                    url: "http://localhost:3000/login",
+
+                    dataType: "json",
+                    success: function (output, status, xhr) {
+                        onSuccess(output, status, xhr);
+                    },
+                    error: function (request, status, error) {
+                        onfailure(request, status, error);
+                    }
+                });
+
+                function onSuccess(output, status, xhr) {
+                    // console.log(output.data.token);
+                    console.log(output.data.output);
+
+                    const token = output.data.token;
+                    localStorage.setItem('x-token', token);
+                }
+                function onfailure(request, status, error) {
+                    console.log(error);
+                }
+            });
+            $('#testjwt').on('click', function () {
+                const token = localStorage.getItem('x-token');
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:3000/login",
+                    headers: {
+                        "x-token": token
+                    },
+
+                    dataType: "json",
+                    success: function (output, status, xhr) {
+                        console.log(output);
+
+                    },
+                    error: function (request, status, error) {
+                        console.log(error);
+
+                    }
+                });
+
+            });
+        });
+
+
+    </script>
+</body>
+
+</html>

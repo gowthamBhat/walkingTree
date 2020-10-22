@@ -8,11 +8,23 @@ const path = require('path');
 const signup = require('./routes/sign-up');
 const login = require('./routes/log-in');
 
+// const corsOptions = {
+
+//     "origin": "*",
+//     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     "preflightContinue": false,
+//     "optionsSuccessStatus": 200
+
+// };
+// app.use(cors(corsOptions));
 app.use(cors());
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static('public'));
+
+
 
 app.use('/trees', tree);
 app.use('/signup', signup);

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.5.1.min.js"></script>
     <title>Home</title>
 </head>
 
@@ -11,6 +12,81 @@
     <center>
         <h1 style="color: black;">WALKING_TREE</h1>
     </center>
+    <button id="caller"> call API</button>
+    <script>
+
+        $(document).ready(function () {
+            // let em = "gowthabhat793@gmail.com";
+            // let ps = "9900789274g";
+
+            // let user = { email: em, password: ps };
+            // let url = `http://localhost:3000/login`;
+            // let h = new Headers();
+            // h.append('Content-Type', 'application/json');
+            // let req = new Request(url, {
+            //     method: 'POST',
+            //     headers: h,
+            //     body: JSON.stringify(user),
+            // });
+            // fetch(req)
+            //     .then((res) => res.json())
+            //     .then((content) => {
+            //         //we have a response
+            //         if ('error' in content) {
+            //             //bad attempt
+            //             failure(content.error);
+            //         }
+            //         else {
+            //             //it worked
+            //             loginSuccess(content.data);
+            //         }
+            //     })
+            //     .catch(failure);
+
+            // function loginSuccess(data) {
+            //     //we have a token so put it in localstorage
+            //     console.log('token', data.token);
+            //     sessionStorage.setItem('myapp-token', data.token);
+            //     alert('You are logged in');
+            // }
+
+            // function registerSuccess(data) {
+            //     //user has been registered
+            //     console.log('new user created', data);
+            //     alert('You have been registered');
+            // }
+
+            // function failure(err) {
+            //     alert(err.message);
+            //     // console.log(err.code, err.message);
+            // }
+            $('#caller').on('click', function () {
+                let user_data = {
+                    "email": "gowthabhat793@gmail.com",
+                    "password": "9900789274g"
+                }
+                $.ajax({
+                    type: "POST",
+                    data: JSON.stringify(user_data),
+                    contentType: "application/json; charset=utf-8",
+                    url: "http://localhost:3000/login",
+
+                    dataType: "text",
+                    success: function (output, status, xhr) {
+                        console.log(output);
+                        console.log(xhr);
+
+                        console.log(xhr.getResponseHeader("token-auth"));
+
+                    }
+                });
+            });
+
+
+        });
+
+
+    </script>
 </body>
 
 </html>
