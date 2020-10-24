@@ -73,4 +73,4 @@ app.listen(port, (error) => {
 
 //TODO: JOI validation 
 //TODO: login and signup with Jwt and bycrypt
-//TODO : DELETE route for trees/list route with user authorisation middleware
+//TODO : DELETE route and update routes for trees/list route with user authorisation middleware
