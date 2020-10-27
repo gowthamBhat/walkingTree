@@ -8,6 +8,7 @@ const path = require('path');
 const signup = require('./routes/sign-up');
 const login = require('./routes/log-in');
 
+
 // const corsOptions = {
 
 //     "origin": "*",
@@ -46,6 +47,7 @@ mongoose.connect('mongodb://localhost:27017/walkingTree')
         console.log('error encounterd', err);
 
     });
+
 
 process.on('uncaughtException', (e) => {
     console.log("WE GOT AN UNCAUGHT EXCEPTION");

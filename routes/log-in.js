@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const router = express.Router();
 const authenticationModule = require('../middleware/auth');
+require('dotenv').config();
 
 router.get('/', authenticationModule, (req, res) => {
     // console.log(req.header('x-token'));
@@ -27,7 +28,7 @@ router.post('/', async (req, res) => {
                 _id: users._id,
                 exp: expires
             }
-            const token = jwt.sign(payload, "mySecretKey");
+            const token = jwt.sign(payload, process.env.jwtSecretKey);
             resObject = {
                 data: {
                     "output": "you are logged in",
@@ -45,5 +46,6 @@ router.post('/', async (req, res) => {
         console.log(error);
     }
 });
+
 
 module.exports = router;

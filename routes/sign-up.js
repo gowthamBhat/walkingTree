@@ -19,6 +19,8 @@ router.post('/', async (req, res) => {
         users = await users.save();
         res.send(users);
     } catch (error) {
+        console.log(error);
+
         res.status(501).send('something went wrong on the server side');
     }
 })
