@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 function auth(req, res, next) {
     const token = req.header('x-token');
@@ -8,7 +9,7 @@ function auth(req, res, next) {
     }
 
     try {
-        const decode = jwt.verify(token, 'mySecretKey');
+        const decode = jwt.verify(token, process.env.jwtSecretKey);
         if (!decode) {
             res.status(401).send('you need to login to access this URL');
             return
