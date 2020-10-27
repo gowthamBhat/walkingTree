@@ -21,14 +21,15 @@ router.post('/', async (req, res) => {
     try {
         const users = await User.findOne({ email: req.body.email, password: req.body.password });
         if (users) {
-            let limit = 60 * 3; // 180 seconds
-            let expires = Math.floor(Date.now() / 1000) + limit;
+            // let limit = 60 * 3; // 180 seconds
+            // let expires = Math.floor(Date.now() / 1000) + limit;
 
-            const payload = {
-                _id: users._id,
-                exp: expires
-            }
-            const token = jwt.sign(payload, process.env.jwtSecretKey);
+            // const payload = {
+            //     _id: users._id,
+            //     exp: expires
+            // }
+            // const token = jwt.sign(payload, process.env.jwtSecretKey);
+            const token = users.genrateAuthToken();
             resObject = {
                 data: {
                     "output": "you are logged in",
