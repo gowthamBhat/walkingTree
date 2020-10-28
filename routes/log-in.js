@@ -4,10 +4,10 @@ const User = require('../models/userSchema');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 const router = express.Router();
-const authenticationModule = require('../middleware/auth');
+const userAuth = require('../middleware/userAuth');
 require('dotenv').config();
 
-router.get('/', authenticationModule, (req, res) => {
+router.get('/', userAuth, (req, res) => {
     // console.log(req.header('x-token'));
     jwtExpData = req.jwtExp;
     res.json({

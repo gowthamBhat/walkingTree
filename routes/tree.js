@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const Tree = require('../models/treeSchema');
 
+const userAuth = require('../middleware/userAuth');
+const adminAuth = require('../middleware/adminAuth');
+const User = require('../models/userSchema');
+
 router.get('/list', async (req, res) => {
     // try {
     //     const trees = await Tree.find().sort('name');
@@ -21,7 +25,7 @@ router.get('/list', async (req, res) => {
         res.send('something went wrong');
     }
 });
-router.post('/list', async (req, res) => {
+router.post('/list', userAuth, async (req, res) => {
     try {
         let trees = new Tree({
             name: req.body.name,
@@ -35,10 +39,8 @@ router.post('/list', async (req, res) => {
 
     }
 });
-router.put('/list/:id', async (req, res) => {
+router.put('/list/:id', userAuth, async (req, res) => {
     try {
-        console.log(req.params.id);
-
         const tree = await Tree.findByIdAndUpdate(req.params.id, {
             name: req.body.name,
             commonName: req.body.commonName
@@ -47,6 +49,18 @@ router.put('/list/:id', async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(501).send('something went wrong');
+    }
+
+});
+
+router.delete('/list/:id', [userAuth, adminAuth], async (req, res) => {
+    try {
+
+        const user = await Tree.findByIdAndRemove(req.params.id);
+        res.send(user);
+    } catch (error) {
+        console.log(error);
+        res.status(404).send('id not found');
     }
 
 });

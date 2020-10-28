@@ -18,6 +18,7 @@ function auth(req, res, next) {
         let current = Math.floor(Date.now() / 1000);
         let diff = current - decode.exp;
         req.jwtExp = diff;
+        req.user = decode;
         next();
     }
     catch (error) {
