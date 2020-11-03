@@ -1,11 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
-const Tree = require('../models/treeSchema');
+const { Tree, validate } = require('../models/treeSchema');
 
 const userAuth = require('../middleware/userAuth');
 const adminAuth = require('../middleware/adminAuth');
-const User = require('../models/userSchema');
+
 
 router.get('/list', async (req, res) => {
     // try {
@@ -26,7 +26,10 @@ router.get('/list', async (req, res) => {
     }
 });
 router.post('/list', userAuth, async (req, res) => {
+
     try {
+        const val = validate(req.body);
+        if (val.error) return res.status(400).send(val.error.details[0].message);
         let trees = new Tree({
             name: req.body.name,
             commonName: req.body.commonName
@@ -40,7 +43,11 @@ router.post('/list', userAuth, async (req, res) => {
     }
 });
 router.put('/list/:id', userAuth, async (req, res) => {
+
     try {
+        const val = validate(req.body);
+        if (val.error) return res.status(400).send(val.error.details[0].message);
+
         const tree = await Tree.findByIdAndUpdate(req.params.id, {
             name: req.body.name,
             commonName: req.body.commonName

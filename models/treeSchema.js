@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
 
 
 const treeSchema = new mongoose.Schema({
@@ -31,7 +32,22 @@ const treeSchema = new mongoose.Schema({
         maxlength: 10
     }
 });
-
+function validate(param) {
+    const Schema = Joi.object({
+        name: Joi.string()
+            .alphanum()
+            .min(3)
+            .max(30)
+            .required(),
+        commonName: Joi.string()
+            .alphanum()
+            .min(3)
+            .max(30)
+            .required()
+    });
+    return Schema.validate({ name: param.name, commonName: param.commonName });
+}
 const Tree = mongoose.model('tree', treeSchema);
 
-module.exports = Tree;
+module.exports.Tree = Tree;
+module.exports.validate = validate;
