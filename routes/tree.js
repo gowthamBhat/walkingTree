@@ -25,6 +25,19 @@ router.get('/list', async (req, res) => {
         res.send('something went wrong');
     }
 });
+router.get('/list/:id', async (req, res) => {
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).send('Invalid Id');
+
+        const trees = await Tree.findById(req.params.id);
+        if (!trees)
+            return res.status(404).send('plant with specific id not found');
+        res.send(trees);
+    } catch (error) {
+        res.send('something went wrong');
+    }
+});
 router.post('/list', userAuth, async (req, res) => {
 
     try {

@@ -68,11 +68,9 @@ app.get('/', (req, res) => {
 const port = process.env.PORT || 3000;
 
 app.listen(port, (error) => {
-    if (error) console.log('error encounterd while running the server'.error);
+    if (error)
+        console.log('error encounterd while running the server'.error);
 
     console.log(`listing on port ${port}`);
 });
 
-//TODO: JOI validation 
-//TODO: login and signup with Jwt and bycrypt
-//TODO : DELETE route and update routes for trees/list route with user authorisation middleware
