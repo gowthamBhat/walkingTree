@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 require('dotenv').config();
 const userSchema = new mongoose.Schema({
     name: {
@@ -17,7 +18,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 3,
-        maxlength: 50
+        maxlength: 255
     },
     isAdmin: {
         type: Boolean,
@@ -30,6 +31,24 @@ userSchema.methods.genrateAuthToken = function () {
     const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin, exp: expires }, process.env.jwtSecretKey); //! should go through mosh's code
     return token;
 }
+function validate(param) {
+    const Schema = Joi.object({
+        name: Joi.string()
+            .alphanum()
+            .min(3)
+            .max(30)
+            .required(),
+        email: Joi.string()
+            .min(3)
+            .max(30)
+            .required().email(),
+        password: Joi.string().required().min(4).max(15),
+        isAdmin: Joi.boolean()
+    });
+    return Schema.validate({ name: param.name, email: param.email, password: param.password, isAdmin: param.isAdmin });
+}
 
 const User = mongoose.model('user', userSchema);
-module.exports = User;
+
+module.exports.User = User;
+module.exports.validate = validate;

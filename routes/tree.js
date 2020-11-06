@@ -18,7 +18,6 @@ router.get('/list', async (req, res) => {
     // }
     try {
         const trees = await Tree.find().sort('name');
-        console.log(trees);
 
         res.render('treeList', { trees: trees })
     } catch (error) {
