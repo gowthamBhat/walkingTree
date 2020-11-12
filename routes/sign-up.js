@@ -17,7 +17,10 @@ router.post('/', async (req, res) => {
         if (isError.error)
             return res.status(400).send(isError.error.details[0].message);
 
-        let users = new User({
+        let users = await User.findOne({ email: req.body.email });
+        if (users) throw "email aready exists";
+
+        users = new User({
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,

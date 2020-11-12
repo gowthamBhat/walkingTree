@@ -69,8 +69,9 @@ const port = process.env.PORT || 3000;
 
 app.listen(port, (error) => {
     if (error)
-        console.log('error encounterd while running the server'.error);
+        console.log('error encounterd while running the server', error);
 
     console.log(`listing on port ${port}`);
 });
 
+//TODO: bcrypt is only hasing sign-up password, authorization comaprision is still pending
